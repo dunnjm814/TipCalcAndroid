@@ -24,10 +24,6 @@ class MainActivity : AppCompatActivity() {
         val stringInTextField = binding.costOfService.text.toString()
         // convert string into a decimal number.
         val cost = stringInTextField.toDouble()
-        if (cost == null) {
-            binding.tipResult.text = ""
-            return
-        }
         val tipPercentage = when (binding.tipOptions.checkedRadioButtonId) {
             R.id.option_twenty_percent -> 0.20
             R.id.option_eighteen_percent -> 0.18
