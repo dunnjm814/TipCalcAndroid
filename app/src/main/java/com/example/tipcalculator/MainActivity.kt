@@ -7,7 +7,7 @@ import java.text.NumberFormat
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     // lateinit keyword promises your code will initialize the variable before using it
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,21 +19,23 @@ class MainActivity : AppCompatActivity() {
         binding.calculateButton.setOnClickListener{ calculateTip() }
     }
 
-    fun calculateTip() {
+    private fun calculateTip() {
         // grab text from EditText view, since this is an Editable, we must cast it into a string()
         val stringInTextField = binding.costOfService.text.toString()
         // convert string into a decimal number.
         val cost = stringInTextField.toDouble()
-        val selectedId = binding.tipOptions.checkedRadioButtonId
-        val tipPercentage = when (selectedId) {
+        if (cost == null) {
+            binding.tipResult.text = ""
+            return
+        }
+        val tipPercentage = when (binding.tipOptions.checkedRadioButtonId) {
             R.id.option_twenty_percent -> 0.20
             R.id.option_eighteen_percent -> 0.18
             else -> 0.15
         }
         // use of var here instead of val because we may need to round up if switch is checked true
         var tip = tipPercentage * cost
-        val roundUp = binding.roundUpSwitch.isChecked
-        if(roundUp){
+        if(binding.roundUpSwitch.isChecked){
             tip = kotlin.math.ceil(tip)
         }
         // formatting the tip double into a currency
